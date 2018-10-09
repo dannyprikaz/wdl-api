@@ -1,11 +1,12 @@
 from flask import Flask, current_app, request
 from main.user import User, UserService
+from main.mongo import MongoConn
+from main import MONGO_URL
 import json
 
 app = Flask(__name__)
 app.url_map.strict_slashes = False
-temp_db_conn = 'temp'
-app.user_service = UserService(temp_db_conn)
+app.user_service = UserService(MongoConn(MONGO_URL))
 
 @app.route('/users', methods=['POST'])
 def create_user():
