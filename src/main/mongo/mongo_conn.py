@@ -2,7 +2,7 @@ from main import DB_NAME, USER_COLLECTION
 from pymongo import MongoClient
 
 class MongoConn(object):
-    def __init__(self, url=''):
+    def __init__(self, url=None):
         self.client = MongoClient(url)
         self.db = self.client[DB_NAME]
 
