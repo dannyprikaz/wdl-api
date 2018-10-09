@@ -5,7 +5,7 @@ class User(object):
     def __init__(self, email, display_name):
         self.email = email
         self.display_name = display_name
-        self.user_id = sha1(email).hexdigest()
+        self._id = sha1(email).hexdigest()
 
     def __iter__(self):
         # create a list of attributes that are common to all objects
