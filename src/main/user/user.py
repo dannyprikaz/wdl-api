@@ -4,7 +4,7 @@ from hashlib import sha1
 class User(object):
     def __init__(self, email, display_name):
         self.email = email
-        self.dispaly_name = display_name
+        self.display_name = display_name
         self.user_id = sha1(email).hexdigest()
 
     def __iter__(self):
