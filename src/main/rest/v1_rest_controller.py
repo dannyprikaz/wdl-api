@@ -4,7 +4,8 @@ import json
 
 app = Flask(__name__)
 app.url_map.strict_slashes = False
-app.user_service = UserService()
+temp_db_conn = 'temp'
+app.user_service = UserService(temp_db_conn)
 
 @app.route('/users', methods=['POST'])
 def create_user():

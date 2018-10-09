@@ -1,6 +1,6 @@
 class UserService(object):
-    def __init__(self):
-        pass
+    def __init__(self, db_conn):
+        self.db_conn = db_conn
 
     def create_user(self, user):
-        pass
+        self.db_conn.index_user(user)
