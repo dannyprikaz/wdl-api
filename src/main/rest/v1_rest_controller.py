@@ -1,10 +1,12 @@
 from flask import Flask, current_app, request
+from flask_cors import CORS
 from main.user import User, UserService
 from main.mongo import MongoConn
 from main import MONGO_URL
 import json
 
 app = Flask(__name__)
+CORS(app)
 app.url_map.strict_slashes = False
 app.user_service = UserService(MongoConn(MONGO_URL))
 
