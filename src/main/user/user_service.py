@@ -4,3 +4,6 @@ class UserService(object):
 
     def create_user(self, user):
         self.db_conn.index_user(user)
+
+    def get_user(self, user):
+        return self.db_conn.get_user(user)
