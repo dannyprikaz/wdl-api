@@ -20,8 +20,15 @@ def create_user():
 
 @app.route('/users', methods=['GET'])
 def get_user():
+    id = json.loads(request.data)['id']
+    with app.app_context():
+        user_result = current_app.user_service.get_user(id)
+    return json.dumps(dict(user_result))
+
+@app.route('/users/check', methods=['GET'])
+def check_user():
     parameters = json.loads(request.data)
     check_user = User(**parameters)
     with app.app_context():
-        user_result = current_app.user_service.check_user(check_user)
-    return json.dumps(dict(user_result))
+        exists = current_app.user_service.check_user(check_user)
+    return json.dumps({'exists': exists})

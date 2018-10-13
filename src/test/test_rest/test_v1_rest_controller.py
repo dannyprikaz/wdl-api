@@ -23,56 +23,53 @@ def test_create_user():
     assert r.get_data() == json.dumps(dict(expected))
     assert r.status_code == 201
 
-def test_check_user_email():
+def test_check_user_by_email():
     #setup
     incomplete_parameters = {'email': 'test@test.com'}
-    complete_parameters = {'email': 'test@test.com', 'display_name': 'tet_name'}
     expected_check = User(**incomplete_parameters)
-    expected_result = User(**complete_parameters)
+    exists = True
     with app.app_context():
         current_app.user_service = Mock()
-        current_app.user_service.check_user = Mock(return_value=expected_result)
+        current_app.user_service.check_user = Mock(return_value=exists)
     #functionality
-    r = client.get('/users', data=json.dumps(incomplete_parameters))
+    r = client.get('/users/check', data=json.dumps(incomplete_parameters))
     #test
     with app.app_context():
         current_app.user_service.check_user\
             .assert_called_with(expected_check)
-    assert r.get_data() == json.dumps(dict(expected_result))
+    assert r.get_data() == json.dumps({'exists': exists})
     assert r.status_code == 200
 
-def test_check_user_display_name():
+def test_check_user_by_display_name():
     #setup
     incomplete_parameters = {'display_name': 'test_name'}
-    complete_parameters = {'email': 'test@test.com', 'display_name': 'tet_name'}
     expected_check = User(**incomplete_parameters)
-    expected_result = User(**complete_parameters)
+    exists = True
     with app.app_context():
         current_app.user_service = Mock()
-        current_app.user_service.check_user = Mock(return_value=expected_result)
+        current_app.user_service.check_user = Mock(return_value=exists)
     #functionality
-    r = client.get('/users', data=json.dumps(incomplete_parameters))
+    r = client.get('/users/check', data=json.dumps(incomplete_parameters))
     #test
     with app.app_context():
         current_app.user_service.check_user\
             .assert_called_with(expected_check)
-    assert r.get_data() == json.dumps(dict(expected_result))
+    assert r.get_data() == json.dumps({'exists': exists})
     assert r.status_code == 200
 
-def test_check_user_id():
+def test_get_user_success():
     #setup
-    incomplete_parameters = {'_id': 'test_id'}
-    complete_parameters = {'email': 'test@test.com', 'display_name': 'tet_name'}
-    expected_check = User(**incomplete_parameters)
-    expected_result = User(**complete_parameters)
+    id = 'test_id'
+    parameters = {'email': 'test@test.com', 'display_name': 'tet_name'}
+    expected = User(**parameters)
     with app.app_context():
         current_app.user_service = Mock()
-        current_app.user_service.check_user = Mock(return_value=expected_result)
+        current_app.user_service.get_user = Mock(return_value=expected)
     #functionality
-    r = client.get('/users', data=json.dumps(incomplete_parameters))
+    r = client.get('/users', data=json.dumps({'id': id}))
     #test
     with app.app_context():
-        current_app.user_service.check_user\
-            .assert_called_with(expected_check)
-    assert r.get_data() == json.dumps(dict(expected_result))
+        current_app.user_service.get_user\
+            .assert_called_with(id)
+    assert r.get_data() == json.dumps(dict(expected))
     assert r.status_code == 200

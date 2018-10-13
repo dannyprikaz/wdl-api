@@ -7,3 +7,6 @@ class UserService(object):
 
     def get_user(self, user):
         return self.db_conn.get_user(user)
+
+    def check_user(self, user):
+        return bool(dict(self.db_conn.get_user(user)))
