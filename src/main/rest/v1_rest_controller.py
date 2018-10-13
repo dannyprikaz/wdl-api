@@ -17,3 +17,11 @@ def create_user():
     with app.app_context():
         current_app.user_service.create_user(new_user)
     return (json.dumps(dict(new_user)), 201)
+
+@app.route('/users', methods=['GET'])
+def get_user():
+    parameters = json.loads(request.data)
+    check_user = User(**parameters)
+    with app.app_context():
+        user_result = current_app.user_service.check_user(check_user)
+    return json.dumps(dict(user_result))

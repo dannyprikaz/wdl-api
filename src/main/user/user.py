@@ -2,10 +2,13 @@ import inspect
 from hashlib import sha1
 
 class User(object):
-    def __init__(self, email=None, display_name=None):
+    def __init__(self, email=None, display_name=None, _id=None):
         self.email = email
         self.display_name = display_name
-        self._id = sha1(email).hexdigest() if email else None
+        if _id:
+            self._id = _id
+        else:
+            self._id = sha1(email).hexdigest() if email else None
 
     def __iter__(self):
         # create a list of attributes that are common to all objects
