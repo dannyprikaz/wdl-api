@@ -41,10 +41,9 @@ def test_check_user_failure():
 def test_get_user():
     #setup
     mocked_user = Mock()
-    returned_user_data = {'email': 'test_email', 'display_name': 'test_name'}
-    expected = User(**returned_user_data)
+    expected = {'email': 'test_email', 'display_name': 'test_name'}
     db_conn = Mock()
-    db_conn.get_user = Mock(return_value=returned_user_data)
+    db_conn.get_user = Mock(return_value=expected)
     user_service = UserService(db_conn)
     #functionality
     actual = user_service.get_user(mocked_user)

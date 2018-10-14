@@ -22,7 +22,8 @@ def create_user():
 def get_user():
     id = request.args['id']
     with app.app_context():
-        user_result = current_app.user_service.get_user(User(_id=id))
+        parameters = current_app.user_service.get_user(User(_id=id))
+        user_result = User(**parameters) if parameters else User()
     return json.dumps(dict(user_result))
 
 @app.route('/users/check', methods=['GET'])
