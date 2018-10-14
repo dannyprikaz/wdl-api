@@ -8,3 +8,6 @@ class MongoConn(object):
 
     def index_user(self, user):
         self.db[USER_COLLECTION].insert_one(dict(user))
+
+    def get_user(self, user):
+        return self.db[USER_COLLECTION].find_one(dict(user))

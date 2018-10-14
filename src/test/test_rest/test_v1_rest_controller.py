@@ -57,11 +57,12 @@ def test_check_user_by_display_name():
     assert r.get_data() == json.dumps({'exists': exists})
     assert r.status_code == 200
 
-def test_get_user_success():
+def test_get_user():
     #setup
     id = 'test_id'
     parameters = {'email': 'test@test.com', 'display_name': 'tet_name'}
     expected = User(**parameters)
+    expected_check = User(_id=id)
     with app.app_context():
         current_app.user_service = Mock()
         current_app.user_service.get_user = Mock(return_value=expected)
@@ -70,6 +71,6 @@ def test_get_user_success():
     #test
     with app.app_context():
         current_app.user_service.get_user\
-            .assert_called_with(id)
+            .assert_called_with(expected_check)
     assert r.get_data() == json.dumps(dict(expected))
     assert r.status_code == 200

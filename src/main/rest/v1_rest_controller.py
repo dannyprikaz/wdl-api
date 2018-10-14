@@ -22,7 +22,7 @@ def create_user():
 def get_user():
     id = json.loads(request.data)['id']
     with app.app_context():
-        user_result = current_app.user_service.get_user(id)
+        user_result = current_app.user_service.get_user(User(_id=id))
     return json.dumps(dict(user_result))
 
 @app.route('/users/check', methods=['GET'])

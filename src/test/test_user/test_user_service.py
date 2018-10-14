@@ -15,9 +15,9 @@ def test_create_user():
 def test_check_user_success():
     #setup
     mocked_check_user = Mock()
-    returned_user = User('test@test.com')
+    returned_user_data = {'email': 'test_email', 'display_name': 'test_name'}
     db_conn = Mock()
-    db_conn.get_user = Mock(return_value=returned_user)
+    db_conn.get_user = Mock(return_value=returned_user_data)
     user_service = UserService(db_conn)
     #functionality
     actual = user_service.check_user(mocked_check_user)
@@ -28,9 +28,9 @@ def test_check_user_success():
 def test_check_user_failure():
     #setup
     mocked_check_user = Mock()
-    returned_user = User()
+    returned_user_data = None
     db_conn = Mock()
-    db_conn.get_user = Mock(return_value=returned_user)
+    db_conn.get_user = Mock(return_value=returned_user_data)
     user_service = UserService(db_conn)
     #functionality
     actual = user_service.check_user(mocked_check_user)
@@ -41,9 +41,10 @@ def test_check_user_failure():
 def test_get_user():
     #setup
     mocked_user = Mock()
-    expected = Mock()
+    returned_user_data = {'email': 'test_email', 'display_name': 'test_name'}
+    expected = User(**returned_user_data)
     db_conn = Mock()
-    db_conn.get_user = Mock(return_value=expected)
+    db_conn.get_user = Mock(return_value=returned_user_data)
     user_service = UserService(db_conn)
     #functionality
     actual = user_service.get_user(mocked_user)
