@@ -32,7 +32,7 @@ def test_check_user_by_email():
         current_app.user_service = Mock()
         current_app.user_service.check_user = Mock(return_value=exists)
     #functionality
-    r = client.get('/users/check', data=json.dumps(incomplete_parameters))
+    r = client.get('/users/check', query_string=incomplete_parameters)
     #test
     with app.app_context():
         current_app.user_service.check_user\
@@ -49,7 +49,7 @@ def test_check_user_by_display_name():
         current_app.user_service = Mock()
         current_app.user_service.check_user = Mock(return_value=exists)
     #functionality
-    r = client.get('/users/check', data=json.dumps(incomplete_parameters))
+    r = client.get('/users/check', query_string=incomplete_parameters)
     #test
     with app.app_context():
         current_app.user_service.check_user\
@@ -67,7 +67,7 @@ def test_get_user():
         current_app.user_service = Mock()
         current_app.user_service.get_user = Mock(return_value=expected)
     #functionality
-    r = client.get('/users', data=json.dumps({'id': id}))
+    r = client.get('/users', query_string={'id': id})
     #test
     with app.app_context():
         current_app.user_service.get_user\
