@@ -11,6 +11,20 @@ def test_create_user():
     #setup
     parameters = {'email': 'test@test.com', 'display_name': 'test_name'}
     expected = User(**parameters)
+    mail_params = {
+        'subject': 'Welcome the WDL Fantasy League!',
+        'sender': app.config.get("MAIL_USERNAME"),
+        'recipients': [parameters['email']],
+        'html': '<h1>Welcome to the WDL Fantasy League, {}!</h1>'.format(parameters['display_name'])\
+                + '<p>Your id is {}</p>'.format(expected._id)\
+                + '<p>and your link is http://whodunnitleague.com/fantasy/team.html?id={}'.format(expected._id)
+    }
+    mocked_message = Mock()
+    mocked_message_class = Mock(return_value=mocked_message)
+    mocked_mail = Mock()
+    mocked_mail.send = Mock()
+    module.mail = mocked_mail
+    module.Message = mocked_message_class
     with app.app_context():
         current_app.user_service = Mock()
         current_app.user_service.create_user = Mock()
@@ -20,6 +34,8 @@ def test_create_user():
     with app.app_context():
         current_app.user_service.create_user\
             .assert_called_with(expected)
+    mocked_message_class.assert_called_with(**mail_params)
+    mocked_mail.send.assert_called_with(mocked_message)
     assert r.get_data() == json.dumps(dict(expected))
     assert r.status_code == 201
 
